@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
+from django.core.cache import cache
 
 from .models import User
 
@@ -32,13 +33,13 @@ def home(request):
 
 def login(request):
     """
-    Login view for user authentication.
+    Handle user login.
 
-    - If the user is already logged in, redirects to the home page.
-    - On POST request: validates the credentials and sets the session.
-    - On failure: shows an error message.
-    - On GET request: renders the login form.
+    - If the user is already authenticated, redirect to the home page.
+    - On POST: validate credentials, track failed attempts, and login the user.
+    - On GET or failed login: render the login page with errors (if any).
     """
+
     if request.session.get('username'):
         return redirect('accounts:home')
 
@@ -48,19 +49,45 @@ def login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+        ip = get_client_ip(request)
+        cache_key = f"bf:{ip}"
+        attempts = cache.get(cache_key, 0)
+
         try:
             user = User.objects.filter(username=username, is_deleted=False).first()
-        except Exception:
+        except Exception as e:
+            print(f"Database error: {e}")
             messages.error(request, "An error occurred while accessing user data.")
-            return render(request, 'accounts/login.html', {})
+            return render(request, 'accounts/login.html', context)
 
         if user and check_password(password, user.password_hash):
             request.session['username'] = user.username
+            cache.delete(cache_key)
             return redirect('accounts:home')
         else:
-            context['error'] = 'Invalid username or password'
+            cache.set(cache_key, attempts + 1, timeout=300)
+            context['error'] = 'Invalid username or password.'
 
     return render(request, 'accounts/login.html', context)
+
+
+def get_client_ip(request):
+    """
+    Extract the client's IP address from the request headers.
+
+    Returns:
+        str: IP address as string.
+    """
+    try:
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0].strip()
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+    except Exception as e:
+        print(f"IP detection error: {e}")
+        return '0.0.0.0'
 
 
 def logout(request):

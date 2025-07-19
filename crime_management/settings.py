@@ -63,6 +63,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'crime_management.middleware.sql_injection_middleware.SQLInjectionMiddleware',
+    'crime_management.middleware.brute_force_protection.BruteForceProtectionMiddleware',
+    'crime_management.middleware.ddos_protection.DDOSProtectionMiddleware',
 ]
 
 ROOT_URLCONF = 'crime_management.urls'
