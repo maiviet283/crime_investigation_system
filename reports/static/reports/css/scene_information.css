@@ -1,0 +1,198 @@
+/* Tổng wrapper */
+.report-section-wrapper {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Mỗi khối */
+.report-block {
+    margin-bottom: 40px;
+    border: 1px solid #d4dce3;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.report-block-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #f7f7f7;
+  font-weight: bold;
+  font-size: 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.report-block-title span {
+  display: block;
+}
+
+.report-block-title-a a {
+  text-decoration: none;
+  color: #000000;
+  font-weight: normal;
+  font-size: 14px;
+  background-color: #a6bbdb;
+  padding: 6px;
+  font-size: 12px;
+  border-radius: 2px;
+}
+
+
+/* Bảng */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.report-table th,
+.report-table td {
+    border: 1px solid #e3e3e3;
+    padding: 10px 12px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.report-table th {
+    background-color: #cddbf8;
+    color: #333;
+    font-weight: 600;
+}
+
+.report-table td {
+    background-color: #fff;
+}
+
+.report-table tr:hover td {
+    background-color: #f0f7ff;
+}
+
+/* Action buttons trong bảng */
+.action-buttons a {
+    margin-right: 8px;
+    color: #1e60a0;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.action-buttons a:hover {
+    color: #003366;
+    text-decoration: underline;
+}
+
+/* Footer buttons */
+#report-footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+#report-footer-actions a {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    border-radius: 5px;
+    background-color: #4a90e2;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#report-footer-actions a:hover {
+    background-color: #357ab8;
+}
+
+.report-table th:nth-child(1) { width: 5%; }     /* # */
+.report-table th:nth-child(2) { width: 30%; }    /* Statement Type */
+.report-table th:nth-child(3) { width: 40%; }    /* Provider */
+.report-table th:nth-child(4) { width: 15%; }    /* Date */
+.report-table th:nth-child(5) { width: 10%; }    /* Actions */
+
+
+/* action icon */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-buttons a {
+  color: #4a4a4a;
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.action-buttons a:hover {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+}
+
+/* ========== Responsive Styles ========== */
+@media (max-width: 768px) {
+  .report-section-wrapper {
+    padding: 8px;
+  }
+
+  .report-block-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .report-block-title-a a {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .report-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  .report-table thead,
+  .report-table tbody,
+  .report-table th,
+  .report-table td,
+  .report-table tr {
+    white-space: nowrap;
+  }
+
+  .report-table th,
+  .report-table td {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  #report-footer-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  #report-footer-actions a {
+    text-align: center;
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .action-buttons {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .action-buttons a {
+    font-size: 14px;
+    padding: 4px;
+  }
+}

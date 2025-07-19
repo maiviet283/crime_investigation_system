@@ -1,0 +1,74 @@
+{% extends "accounts/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <title>PD SYSTEM - Login</title>
+    <link rel="stylesheet" href="{% static 'boostrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'login/css/style_login.css' %}">
+{% endblock head %}
+
+{% block body %}
+<div class="login-container">
+    <div class="login-title">PD SYSTEM</div>
+    <!-- Alert message container -->
+    {% if error %}
+        <div id="alert-container" class="alert alert-danger mt-3" role="alert" style="display: block;">
+            <span id="alert-message">{{ error }}</span>
+        </div>
+    {% elif success %}
+        <div id="alert-container" class="alert alert-success mt-3" role="alert" style="display: block;">
+            <span id="alert-message">{{ success }}</span>
+        </div>
+    {% else %}
+        <div id="alert-container" style="display: none;" class="alert alert-danger mt-3" role="alert">
+            <span id="alert-message"></span>
+        </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label class="form-label" for="username">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+        <label class="form-label" for="password">Password</label>
+        <div class="position-relative">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+            <span class="show-hide" onclick="togglePassword()">👁️ Hide</span>
+        </div>
+        <button type="submit" class="btn login-btn" id="loginBtn">Login</button>
+    </form>
+    <div class="lang-select">
+        <select>
+            <option>English (united States)</option>
+            <option>Tiếng Việt</option>
+            <option>Español</option>
+        </select>
+    </div>
+    <div class="footer">
+        About &nbsp;·&nbsp; Help Center &nbsp;·&nbsp; Terms of Service &nbsp;·&nbsp; Privacy Policy &nbsp;·&nbsp; Cookie Policy
+    </div>
+</div>
+<script>
+    function togglePassword() {
+        var pwd = document.getElementById("password");
+        var showHide = document.querySelector(".show-hide");
+        if (pwd.type === "password") {
+            pwd.type = "text";
+            showHide.textContent = "👁️ Show";
+        } else {
+            pwd.type = "password";
+            showHide.textContent = "👁️ Hide";
+        }
+    }
+
+    function showAlert(message, type = 'danger') {
+        const alertContainer = document.getElementById('alert-container');
+        const alertMessage = document.getElementById('alert-message');
+        alertContainer.className = `alert alert-${type} mt-3`;
+        alertMessage.textContent = message;
+        alertContainer.style.display = 'block';
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+            alertContainer.style.display = 'none';
+        }, 5000);
+    }
+</script>
+{% endblock body %}

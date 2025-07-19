@@ -1,0 +1,166 @@
+{% extends "reports/base.html" %}
+{% load static %}
+
+{% block title %}{{ section }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href='{% static "reports/css/scene_information.css" %}'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% endblock %}
+
+{% block section %}
+<center id="section">
+    <h2>{{ section }}</h2>
+</center>
+{% endblock section %}
+
+{% block content %}
+<div class="report-section-wrapper">
+    <div id="initial-statements" class="report-block">
+        <div class="report-block-title">
+            <span>INITIAL STATEMENTS</span>
+            <span class="report-block-title-a"><a href="#">View Details</a></span>
+        </div>
+
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Statement Type</th>
+                    <th>Provider</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in initial_statements %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>Victim</td>
+                    <td>{{ item.report_id__reporter_fullname }}</td>
+                    <td>{{ item.report_id__reported_at }}</td>
+                    <td class="action-buttons">
+                        <a href="#" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                        <a href="#" title="Edit"><i class="fas fa-pen"></i></a>
+                        <a href="#" title="Details"><i class="fas fa-arrow-right"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SCENE DESCRIPTION -->
+    <div id="scene-description" class="report-block">
+        <div class="report-block-title">
+            <span>SCENE DESCRIPTION</span>
+            <span class="report-block-title-a"><a href="#">ADD +</a></span>
+        </div>
+
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Provider</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in initial_statements %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.report_id__description }}</td>
+                    <td>{{ item.report_id__reporter_fullname }}</td>
+                    <td>{{ item.report_id__reported_at }}</td>
+
+                    <td class="action-buttons">
+                        <a href="#" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                        <a href="#" title="Edit"><i class="fas fa-pen"></i></a>
+                        <a href="#" title="Details"><i class="fas fa-arrow-right"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- IMAGES AND VIDEOS -->
+    <div id="images-videos" class="report-block">
+        <div class="report-block-title">
+            <span>IMAGES AND VIDEO</span>
+            <span class="report-block-title-a"><a href="#">ADD +</a></span>
+        </div>
+
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Video or Image</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in initial_statements %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>N/A</td>
+                    <td>{{ item.report_id__type_report }}</td>
+                    <td>{{ item.report_id__reported_at }}</td>
+                    <td class="action-buttons">
+                        <a href="#" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                        <a href="#" title="Edit"><i class="fas fa-pen"></i></a>
+                        <a href="#" title="Details"><i class="fas fa-arrow-right"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PRELIMINARY PHYSICAL EVIDENCE -->
+    <div id="preliminary-evidence" class="report-block">
+        <div class="report-block-title">
+            <span>PRELIMINARY PHYSICAL EVIDENCE INFORMATION</span>
+            <span class="report-block-title-a"><a href="#">ADD +</a></span>
+        </div>
+
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Evidence Name</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in preliminary_evidence %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.type_name }}</td>
+                    <td>{{ item.summary }}</td>
+                    <td>{{ item.evidence_id__date_collected }}</td>
+                    <td class="action-buttons">
+                        <a href="#" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                        <a href="#" title="Edit"><i class="fas fa-pen"></i></a>
+                        <a href="#" title="Details"><i class="fas fa-arrow-right"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- FOOTER ACTION BUTTONS -->
+    <div id="report-footer-actions">
+        <a href="#">Cancel</a>
+        <a href="#">Save</a>
+        <a href="#">Next Page</a>
+    </div>
+</div>
+{% endblock %}

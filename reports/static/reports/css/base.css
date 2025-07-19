@@ -1,0 +1,245 @@
+/* Reset */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Container chia 2 bên */
+.container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  box-shadow: 10px;
+}
+
+/* Sidebar bên trái */
+.sidebar {
+  width: 280px;
+  background-color: #f8f8f8;
+  padding: 0;
+  overflow-y: auto;
+  flex-shrink: 0;
+  border-right: 1px solid #3f3f3f;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+
+/* Navigation list */
+.nav-section {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Section Header (menu chính) */
+.section-header {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  background-color: #a0a0a0;
+  color: #000;
+  border-bottom: 1px solid #eeeeee;
+  transition: background 0.2s;
+  margin-bottom: 10px;
+}
+
+.section-header.active {
+  background-color: #81afe7;
+}
+
+.section-header a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.section-header .arrow {
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+  font-size: 14px;
+}
+
+.section-header.active .arrow {
+  transform: rotate(90deg);
+  color: #1a73e8;
+}
+
+/* Submenu */
+.sub-section {
+  list-style: none;
+  padding-left: 38px;
+  display: none;
+  margin: 0;
+  background-color: #f0f6ff;
+}
+
+.sub-section.show {
+  display: block;
+}
+
+.sub-section li {
+  padding: 6px 0;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Main content bên phải */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #fff;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+/* bo dau gach duoi chan li a */
+.sub-section li a {
+  text-decoration: none;
+  color: #333;
+  display: inline-block;
+  width: 100%;
+}
+
+.sub-section li a:hover {
+  color: #1a73e8;
+  background-color: #e8f0fe;
+  border-radius: 4px;
+  padding-left: 4px;
+}
+
+/* chung */
+h2 {
+    font-size: 20px;
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+/* Tiêu đề tổng */
+#section{
+    background-color: #b0cff0;
+    height: 50px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    margin-top: 0px;
+}
+
+.main-content{
+    width: 90px;
+    background-color: #dddddd;
+    border-radius: 10px;
+}
+
+.div-main-content {
+    width: 99%;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* reposive */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+
+  .section-header {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .sub-section li {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin: 0;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+  }
+
+  .section-header {
+    font-size: 15px;
+    padding: 12px 16px;
+  }
+
+  .sub-section {
+    padding-left: 24px;
+  }
+
+  .main-content {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    background-color: #fff;
+    padding: 16px;
+  }
+
+  .div-main-content {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  #section {
+    font-size: 16px;
+    height: auto;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-header {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .sub-section li {
+    font-size: 12.5px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .main-content {
+    padding: 12px;
+  }
+
+  .div-main-content {
+    padding: 10px;
+  }
+
+  #section {
+    font-size: 15px;
+  }
+}
+
+a {
+  text-decoration: none;
+}

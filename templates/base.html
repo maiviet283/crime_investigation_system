@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NYPD Crime Investigation System{% endblock %}</title>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="topbar">
+            <div class="left">
+                <span style="    font-weight: 900;margin-right: 20px;font-size: 25px;">NYC</span>
+                <span>New York City Police Department</span>
+            </div>
+            <div class="nav-login right">
+                <a href="#">English <span>▼</span></a>
+              
+                    <a href="{% url 'accounts:login-two' %}">Login</a>
+
+            </div>
+        </div>
+        
+        <div class="logo-title">
+            <img src="{% static 'home/images/logo_nycd.png' %}" alt="NYPD Logo">
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Bureaus</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Stats</a></li>
+                <li><a href="#">Policies</a></li>
+                <li><input type="text" placeholder="Search"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+   
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="title">Directory of City Agencies</div>
+                <div>Notify NYC</div>
+                <div>NYC Mobile Apps</div>
+            </div>
+            <div class="footer-col">
+                <div class="title">Contact NYC Government</div>
+                <div>CityStore</div>
+                <div>Maps</div>
+            </div>
+            <div class="footer-col">
+                <div class="title">City Employees</div>
+                <div>Stay Connected</div>
+                <div>Resident Toolkit</div>
+            </div>
+            <div class="footer-col">
+                <div style="display:flex; align-items:center; margin-bottom:10px;">
+                    <span style="font-weight:900; font-size:35px; margin-right:8px;">NYC</span>
+                    <input type="text" placeholder="Search">
+                </div>
+                <div class="copyright">City of New York. 2025 All Rights Reserved.<br>NYC® is a trademark and service mark of the City of New York.<br><a href="#" style="color:#bbb; text-decoration:underline;">Privacy Policy</a>. <a href="#" style="color:#bbb; text-decoration:underline;">Terms of Use</a>.</div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span style="font-size:22px;">&#9855;</span>
+        </div>
+    </footer>
+
+
+    {% block modal %}{% endblock %}
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'boostrap/js/bootstrap.bundle.min.js' %}"></script>
+    {% block extra_body %}{% endblock %}
+ 
+</body>
+</html>

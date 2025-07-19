@@ -1,0 +1,61 @@
+{% extends "reports/base.html" %}
+{% load static %}
+
+{% block title %}{{ section }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'reports/css/information_protection.css' %}">
+{% endblock %}
+
+{% block section %}
+<center id="section">
+    <h2>{{ section }}</h2>
+</center>
+{% endblock section %}
+
+{% block content %}
+<div>
+    <form action="{% url 'reports:update-information-protection' investigation_plan.investigation_plan_id %}"
+        method="post">
+        {% csrf_token %}
+        <label for="officer">RESPONSIBLE UNIT/OFFICER</label>
+        <input type="text" name="officer" id="officer" placeholder="Fullname"
+            value="{{ investigation_plan.accepted_officer_username.fullname }}" required><br>
+
+        <p>TIME OF ARRIVAL AT THE SCENE</p>
+        <div class="input-row">
+            <label for="start">Start Time</label>
+            <input type="date" name="start" id="start" value="{{ investigation_plan.create_at|date:'Y-m-d' }}" required>
+        </div>
+
+        <div class="input-row">
+            <label for="end">End Time</label>
+            <input type="date" name="end" id="end" value="{{ investigation_plan.deadline_date|date:'Y-m-d' }}" required>
+        </div><br>
+
+        <label for="plan_content">DESCRIPTION OF SCENE PROTECTION METHODS</label>
+        <textarea type="text" name="plan_content" id="plan_content"
+            required>{{ investigation_plan.plan_content }}</textarea><br>
+
+        <label for="summary">AREA COVERED / PERIMETER</label>
+        <textarea type="text" name="summary" id="summary" required>{{ investigation_plan.case.summary }}</textarea><br>
+
+        <label for="result">NOTES/SPECIAL INSTRUCTIONS</label>
+        <textarea type="text" name="result" id="result" required>{{ investigation_plan.result }}</textarea><br>
+
+        <div class="upload-section">
+            <label for="file-upload" class="upload-label">
+                <p class="upload-title">Drag & drop files here</p>
+                <p class="upload-or">or</p>
+                <button type="button" class="upload-button">Browse</button>
+            </label>
+            <input type="file" id="file-upload" name="attachment">
+            <p class="upload-note">Supported formats: JPEG, PNG, GIF, MP4, PDF, PSD, AI, Word, PPT</p>
+        </div>
+
+        <input type="submit" value="save">
+    </form>
+
+    <a href="{% url 'reports:initial-response' %}">Cancel</a>
+</div>
+{% endblock content %}

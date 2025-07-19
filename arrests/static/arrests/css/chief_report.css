@@ -1,0 +1,43 @@
+/* Responsive table adjustments */
+.dataTables_wrapper .dataTables_filter input {
+    min-width: 200px;
+    max-width: 100%;
+    width: 100%;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 1rem;
+}
+
+.dataTables_wrapper .dataTables_paginate .pagination {
+    justify-content: center;
+}
+
+.dataTables_info {
+    display: none;
+}
+
+/* Status badge */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Khi rê chuột vào icon, thêm hiệu ứng */
+a[title="Logout"]:hover,
+a[title="Back to Home"]:hover {
+    opacity: 0.8;
+}
+
+.dataTables_filter {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.dataTables_filter input {
+    flex: 1;
+    max-width: 500px;
+}

@@ -1,0 +1,57 @@
+# ===== Python cache files =====
+__pycache__/
+*.py[cod]
+
+# ===== Django specific =====
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+db.sqlite3
+
+# Migrations: giữ lại các file .py để deploy, chỉ ignore cache
+**/migrations/__pycache__/
+
+# Local media and uploads
+/media/
+/media/*
+
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Pipenv
+Pipfile.lock
+
+# Pytest and coverage
+.coverage
+htmlcov/
+.tox/
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+
+# MyPy
+.mypy_cache/
+
+# Static build output (optional, if you use collectstatic locally)
+staticfiles/
+static_root/
+
+# Node (if used in static handling)
+node_modules/
+npm-debug.log
+yarn-error.log

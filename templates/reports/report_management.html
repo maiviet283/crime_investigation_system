@@ -1,0 +1,116 @@
+
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'reports/css/report_managemant.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="content">
+<div class="sidebar d-flex flex-column align-items-center py-4">
+    <div class="user-info text-center mb-4">
+        <img src="{% if user and user.avatar_url %}{{ user.avatar_url }}{% else %}{% static 'reports/images/avatar_placeholder.png' %}{% endif %}" alt="Avatar" class="avatar mb-2" id="avatar">
+        <div class="fw-bold" id="user-name">{{ user.fullname|default:user.username|default:'Unknown User' }}</div>
+        <div class="text-muted small" id="user-role">{{ user.role_id__description|default:'Unknown Role' }}</div>
+    </div>
+    <nav class="nav flex-column w-100">
+        <a class="nav-link mb-2" href="#">Dashboard</a>
+        <a class="nav-link active mb-2" href="#">Reports</a>
+        <a class="nav-link mb-2" href="#">Cases</a>
+    </nav>
+    <button class="logout-btn mt-auto w-100 text-center">
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+        Logout
+    </button>
+</div>
+<div class="container mt-4">
+    <h2>Report Management</h2>
+    <form class="filter-bt" method="get" class="row g-2 mb-3 align-items-end">
+        <div class="col-auto">
+            <select name="status" class="form-select">
+                <option value="" {% if not current_status %}selected{% endif %}>All Status</option>
+                <option value="APPROVED" {% if current_status == "APPROVED" %}selected{% endif %}>Approved</option>
+                <option value="REJECTED" {% if current_status == "REJECTED" %}selected{% endif %}>Rejected</option>
+                <option value="PENDING" {% if current_status == "PENDING" %}selected{% endif %}>Pending</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <select name="type_report" class="form-select">
+               
+                {% for type_report in type_report_list %}
+                   <option value="{{ type_report }}" {% if current_type_report == type_report %}selected{% endif  %}>{{ type_report }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <select name="severity" class="form-select">
+                <option value="" {% if not current_severity %}selected{% endif %}>All Severity</option>
+                <option value="Low" {% if current_severity == "Low" %}selected{% endif %}>Low</option>
+                <option value="Moderate" {% if current_severity == "Moderate" %}selected{% endif %}>Moderate</option>
+                <option value="High" {% if current_severity == "High" %}selected{% endif %}>High</option>
+                <option value="Critical" {% if current_severity == "Critical" %}selected{% endif %}>Critical</option>
+            </select>
+        </div>
+       
+    </form>
+    <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Report ID</th>
+                <th>Type of Crime</th>
+                <th>Severity</th>
+                <th>Date</th>
+                <th>Reporter</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>#{{ report.report_id }}</td>
+                <td>{{ report.type_report }}</td>
+                <td>
+                   {{ report.severity }}
+                </td>
+                <td>{{ report.reported_at|date:"d/m/Y" }}</td>
+                <td>{{ report.reporter_fullname }}</td>
+                <td>
+                    {% if report.status == 'Approved' or report.status == 'APPROVED' %}
+                        <span class="badge bg-success">Approved</span>
+                    {% elif report.status == 'Rejected' or report.status == 'REJECTED' %}
+                        <span class="badge bg-danger">Rejected</span>
+                    {% elif report.status == 'Pending' or report.status == 'PENDING' %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    {% endif %}
+                </td>
+                <td><a href="#">View detail</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <!-- Phân trang nếu cần -->
+    <div class="d-flex justify-content-end">
+        <nav>
+            <ul class="pagination">
+                {% if reports.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ reports.previous_page_number }}">&laquo;</a>
+                    </li>
+                {% endif %}
+                {% for num in reports.paginator.page_range %}
+                    <li class="page-item {% if reports.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+                {% if reports.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ reports.next_page_number }}">&raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+</div>
+{% endblock %}

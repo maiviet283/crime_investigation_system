@@ -1,0 +1,206 @@
+/* Ô tìm kiếm */
+input[type="search"] {
+    background-color: #e3edf7;
+    padding: 6px 12px;
+    margin-bottom: 10px;
+    width: 360px;
+    height: 45px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+/* Header chứa tiêu đề và nút ADD */
+.add-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin: 20px 0 10px;
+    padding-bottom: 8px;
+    
+}
+
+.add-header button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-header button:hover {
+    background-color: #0056b3;
+}
+
+/* Bảng dữ liệu báo cáo */
+#reportTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border-radius: 10px;               /* bo tròn các góc */
+    border: 1px solid #000000;            /* viền tổng thể */
+    border-collapse: separate;         /* PHẢI dùng để bo tròn có hiệu lực */
+    overflow: hidden;                  /* tránh tràn viền */
+}
+
+#reportTable th,
+#reportTable td {
+    border: 0.1px solid #000000;
+    padding: 8px;
+    text-align: center;
+}
+
+#reportTable th {
+    background-color: #9ec4f5;
+    font-weight: bold;
+}
+
+.th-zone {
+    text-align: left;
+    padding-left: 10px;
+}
+
+/* Phân trang */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.page-links {
+    display: flex;
+    gap: 6px;
+}
+
+.page-links a,
+.page-links span {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    min-width: 30px;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+}
+
+.page-links a:hover {
+    background-color: #e6f0ff;
+}
+
+.page-links .current {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border-color: #007bff;
+}
+
+.page-links .disabled {
+    color: #999;
+    background-color: #f2f2f2;
+    border-color: #ddd;
+}
+
+
+.search_bt {
+    background-color: #c5dcf3;
+    height: 45px;
+    width: 90px;
+    font-size: 15px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease; /* hiệu ứng mượt */
+}
+
+.search_bt:hover {
+    background-color: #5aaceb;      /* nhạt hơn 1 chút để dễ thấy */
+    border-color: #999;             /* đổi màu viền */
+    color: #000;                    /* đổi màu chữ (tùy chọn) */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);  /* bóng nhẹ */
+}
+
+select {
+    padding: 6px 10px;
+    padding-right: 30px; /* thêm khoảng cách bên phải để tránh tràn mũi tên */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #e8f0e4ce;
+    appearance: none;           /* ẩn giao diện mặc định của trình duyệt */
+    -webkit-appearance: none;   /* Safari/Chrome */
+    -moz-appearance: none;      /* Firefox */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%225%22%20viewBox%3D%220%200%2010%205%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200l5%205%205-5z%22%20fill%3D%22%23666%22/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* vị trí mũi tên */
+    background-size: 10px 5px;
+    cursor: pointer;
+    height: 45px;
+}
+
+/* reposive */
+@media (max-width: 768px) {
+  form {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  input[type="search"],
+  .search_bt,
+  select {
+    width: 100%;
+    font-size: 14px;
+    height: 42px;
+  }
+
+  .add-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .add-header button {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  #reportTable {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  #reportTable th,
+  #reportTable td {
+    font-size: 13px;
+    padding: 8px;
+    white-space: nowrap;
+  }
+
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .page-links {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .page-info {
+    text-align: center;
+    font-size: 13px;
+  }
+}
+
+#x-out{
+  padding: 0px;
+  margin: 0px;
+  font-size: 42px;
+  text-align: right;
+  color: #000;
+}

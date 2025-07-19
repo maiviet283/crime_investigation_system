@@ -1,0 +1,100 @@
+{% extends "reports/base.html" %}
+{% load static %}
+
+{% block title %}{{ section }}{% endblock %}
+
+{% block section %}
+<center id="section">
+    <h2>{{ section }}</h2>
+</center>
+{% endblock section %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'reports/css/investigation_report.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+<div id="report-wrapper">
+    {% if data %}
+    <div id="report-content">
+
+
+        <!-- 1. Officers -->
+        <h4>1. LIST OF OFFICERS ASSIGNED</h4>
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Role</th>
+                    <th>Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for officer in data.officers %}
+                <tr>
+                    <td>{{ officer.fullname }}</td>
+                    <td>{{ officer.role }}</td>
+                    <td>{{ officer.phone }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- 2. Actions Taken -->
+        <h4>2. ACTIONS TAKEN</h4>
+        <ol class="report-list">
+            <li>Preservation method: {{ data.type_case }}</li>
+            <li>Vehicle stabilized to prevent further movement.</li>
+            <li>Photographic documentation at scene.</li>
+        </ol>
+
+        <!-- 3. Evidence -->
+        <h4>3. COLLECTED EVIDENCE</h4>
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Evidence Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if evidence_list %}
+                {% for ev in evidence_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ ev.type_name }}</td>
+                    <td>{{ ev.result }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="3">No evidence collected.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <!-- 4. Summary -->
+        <h4>4. INITIAL STATEMENTS SUMMARY</h4>
+        <p class="report-block">{{ data.case_summary|default:"No summary." }}</p>
+
+        <!-- 5. Conclusion -->
+        <h4>5. PRELIMINARY CONCLUSION</h4>
+        <p class="report-block">{{ plan_result|default:"No conclusion." }}</p>
+
+        <!-- 6. Reporter -->
+        <h4>6. REPORTER</h4>
+        <p class="report-block">{{ data.reporter_fullname|default:"Unknown" }}</p>
+    </div>
+
+    <div id="report-actions">
+        <a href="#" class="btn btn-secondary">Cancel</a>
+        <button onclick="window.print()" class="btn btn-outline-primary">Print Report</button>
+        <button class="btn btn-primary">Submit Report</button>
+    </div>
+    {% else %}
+    <p>No report data found.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,222 @@
+/* FORM */
+form {
+    background-color: #fff;
+    padding: 24px;
+    max-width: 600px;
+    margin: 40px auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* LABELS */
+form label {
+    font-weight: 600;
+    font-size: 13px;
+    color: #374151;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* TEXT & DATE INPUTS */
+form input[type="text"],
+form input[type="datetime-local"],
+form input[type="date"] {
+    width: 97%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    transition: border-color 0.2s ease;
+}
+
+#plan_content,
+#result,
+#summary {
+    min-height: 80px;
+    resize: vertical;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.5;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    transition: border-color 0.2s ease-in-out;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#plan_content:focus,
+#result:focus,
+#summary:focus {
+    border-color: #6366f1;
+    background-color: #fff;
+    outline: none;
+}
+
+
+form input:focus {
+    border-color: #6366f1;
+    outline: none;
+    background-color: #fff;
+}
+
+/* PARAGRAPH (SECTION TITLE) */
+form p {
+    font-weight: 600;
+    font-size: 15px;
+    color: #111827;
+    margin: 12px 0 4px;
+}
+
+/* UPLOAD SECTION */
+.upload-section {
+    border: 2px dashed #cbd5e1;
+    border-radius: 10px;
+    padding: 32px 16px;
+    background-color: #f8fafc;
+    text-align: center;
+    margin-top: 16px;
+    color: #475569;
+    position: relative;
+}
+
+.upload-section:hover {
+    border-color: #6366f1;
+}
+
+.upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.upload-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.upload-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 4px;
+}
+
+.upload-or {
+    font-size: 13px;
+    color: #94a3b8;
+    margin: 6px 0;
+}
+
+.upload-button {
+    background-color: #4f46e5;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.upload-button:hover {
+    background-color: #4338ca;
+}
+
+.upload-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.upload-section input[type="file"] {
+    display: none;
+}
+
+
+/* SUBMIT BUTTON */
+form input[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4f46e5;
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+form input[type="submit"]:hover {
+    background-color: #4338ca;
+}
+
+/* CANCEL LINK */
+form + a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 500;
+    color: #6b7280;
+    text-decoration: none;
+}
+
+form + a:hover {
+    color: #111827;
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+    form {
+        padding: 20px;
+        margin: 20px;
+    }
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.input-row label {
+    min-width: 120px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #374151;
+    text-transform: uppercase;
+}
+
+.input-row input[type="date"],
+.input-row input[type="datetime-local"] {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    transition: border-color 0.2s ease;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Đảo chiều: input trước - label sau */
+.input-row.reverse {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.input-row.reverse label {
+    text-align: left;
+}

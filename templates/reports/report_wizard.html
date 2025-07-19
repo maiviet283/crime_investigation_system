@@ -1,0 +1,426 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Crime Report | NYPD Crime Investigation System{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'home/css/slider_section.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    .modal.show {
+        display: block !important;
+    }
+
+    .modal-backdrop.show {
+        opacity: 0.5;
+    }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white px-0">
+            <li class="breadcrumb-item"><a href="{% url 'home:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Report</a></li>
+            <li class="breadcrumb-item{% if step_number == 1 %} active{% endif %}" aria-current="page">Step 1</li>
+            {% if step_number > 1 %}
+                <li class="breadcrumb-item{% if step_number == 2 %} active{% endif %}" aria-current="page">Step 2</li>
+            {% endif %}
+            {% if step_number == 3 %}
+                <li class="breadcrumb-item active" aria-current="page">Step 3</li>
+            {% endif %}
+        </ol>
+    </nav>
+    <h2 class="text-center font-weight-bold mb-4">CRIME REPORT</h2>
+    <div class="stepper-center d-flex justify-content-center mb-4">
+        <div class="stepper d-flex justify-content-between w-50">
+            <div class="step text-center">
+                <div class="circle mx-auto {% if step_number == 1 %}bg-dark text-white{% elif step_number > 1 %}bg-secondary text-white{% else %}bg-light text-dark{% endif %}">
+                    {% if step_number > 1 %}✓{% else %}1{% endif %}
+                </div>
+                <div class="mt-2 {% if step_number == 1 %}font-weight-bold{% endif %}">Reporter</div>
+            </div>
+            <div class="line my-auto"></div>
+            <div class="step text-center">
+                <div class="circle mx-auto {% if step_number == 2 %}bg-dark text-white{% elif step_number > 2 %}bg-secondary text-white{% else %}bg-light text-dark{% endif %}">
+                    {% if step_number > 2 %}✓{% else %}2{% endif %}
+                </div>
+                <div class="mt-2 {% if step_number == 2 %}font-weight-bold{% endif %}">Incident</div>
+            </div>
+            <div class="line my-auto"></div>
+            <div class="step text-center">
+                <div class="circle mx-auto {% if step_number == 3 %}bg-dark text-white{% else %}bg-light text-dark{% endif %}">
+                    3
+                </div>
+                <div class="mt-2 {% if step_number == 3 %}font-weight-bold{% endif %}">Step 3</div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if step_number == 3 %}
+            <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px;">
+                <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Success" style="width: 100px; height: 100px; margin-bottom: 24px;">
+                <h4 class="mb-3">Thank you for your submission.</h4>
+                <p>Your report has been submitted successfully.</p>
+            </div>
+        {% else %}
+            <div class="card p-4 mx-auto" style="max-width: {% if step_number == 1 %}700px{% else %}900px{% endif %};">
+                <div class="report-section-title">
+                    <div class="line"></div>
+                    <h5 class="text-center font-weight-bold mb-4">{{ step_title }}</h5>
+                    <div class="line"></div>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ wizard.management_form }}
+                    {% if wizard.form.errors %}
+                        <div class="alert alert-danger">
+                            {% for error in wizard.form.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if step_number == 1 %}
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Full name <span class="text-danger">*</span></label>
+                                {{ wizard.form.reporter_fullname }}
+                            </div>
+                            <div class="form-group col-md-6" style="width: 45%;">
+                                <label>Email <span class="text-danger">*</span></label>
+                                {{ wizard.form.reporter_email }}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6" style="width: 100%;">
+                                <label>Phone number <span class="text-danger">*</span></label>
+                                {{ wizard.form.reporter_phonenumber }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Relationship to the incident <span class="text-danger">*</span></label>
+                            <p></p>
+                            {{ wizard.form.relationship }}
+                        </div>
+                    {% else %}
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Type of crime <span class="text-danger">*</span></label>
+                                {{ wizard.form.type_report }}
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Severity <span class="text-danger">*</span></label>
+                                {{ wizard.form.severity }}
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Datetime of occurrence <span class="text-danger">*</span></label>
+                                {{ wizard.form.reported_at }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Detailed address</label>
+                            {{ wizard.form.case_location }}
+                        </div>
+                        <div class="form-group">
+                            <label>Description of the incident</label>
+                            {{ wizard.form.description }}
+                        </div>
+                        <div class="report-section-title mt-5">
+                            <div class="line"></div>
+                            <h5>Relevant Parties</h5>
+                            <div class="line"></div>
+                        </div>
+                        <div class="table-responsive mb-3">
+                            <table class="table table-bordered" id="relevant-parties-table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Relevant Role</th>
+                                        <th>Name</th>
+                                        <th>Statement</th>
+                                        <th>Attachments</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for party in related_parties %}
+                                    <tr>
+                                        <td>#{{ forloop.counter }}</td>
+                                        <td>{{ party.role|default:"—" }}</td>
+                                        <td>{{ party.name|default:"—" }}</td>
+                                        <td>{{ party.statement|default:"—" }}</td>
+                                        <td>
+                                            {% if party.attachment %}
+                                                <a href="#" target="_blank" class="text-primary">
+                                                    <i class="fa fa-file"></i> {{ party.attachment|slice:":20" }}{% if party.attachment|length > 20 %}...{% endif %}
+                                                </a>
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-link p-0"><i class="fa fa-edit"></i></a>
+                                            <a href="#" class="btn btn-link p-0 text-danger delete-party-btn" data-id="{{ party.id }}">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="text-center">No relevant parties added.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="btn-add-wrapper">
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#relevantPartyModal">Add</button>
+                            </div>
+                        </div>
+                        <div class="report-section-title mt-5">
+                            <div class="line"></div>
+                            <h5>Initial Evidence</h5>
+                            <div class="line"></div>
+                        </div>
+                        <div class="table-responsive mb-3">
+                            <table class="table table-bordered" id="evidence-table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Types of Evidence</th>
+                                        <th>Location</th>
+                                        <th>Description</th>
+                                        <th>Attachments</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for evidence in evidences %}
+                                    <tr>
+                                        <td>#{{ forloop.counter }}</td>
+                                        <td>{{ evidence.type|default:"—" }}</td>
+                                        <td>{{ evidence.location|default:"—" }}</td>
+                                        <td>{{ evidence.description|default:"—" }}</td>
+                                        <td>
+                                            {% if evidence.attachment %}
+                                            <a href="#" target="_blank" class="text-primary">
+                                                <i class="fa fa-file"></i> {{ evidence.attachment|slice:":20" }}{% if evidence.attachment.name|length > 20 %}...{% endif %}
+                                            </a>
+                                        {% else %}
+                                                —
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-link p-0"><i class="fa fa-edit"></i></a>
+                                            <a href="#" class="btn btn-link p-0 text-danger delete-evidence-btn" data-id="{{ evidence.id }}">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="text-center">No evidence added.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="btn-add-wrapper">
+                                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#evidenceModal">Add</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="d-flex justify-content-end mt-4 btn-submit">
+                        {% if wizard.steps.prev %}
+                            <button type="submit" name="wizard_goto_step" value="{{ wizard.steps.prev }}" class="btn btn-light mr-2">Back</button>
+                        {% endif %}
+                        <button type="submit" class="btn btn-dark">{% if step_number == wizard.steps.count %}Submit{% else %}Next{% endif %}</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="relevantPartyModal" tabindex="-1" aria-labelledby="relevantPartyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <h3 class="modal-title fw-bold text-center w-100" id="relevantPartyModalLabel">Relevant Parties</h3>
+      </div>
+      <form id="relevantPartyForm" enctype="multipart/form-data" autocomplete="off">
+        <div class="modal-body pt-0">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Full name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="fullname" placeholder="E.g., John Michael Doe" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Relationship to the incident <span class="text-danger">*</span></label>
+              <select class="form-select" name="relationship" required>
+                <option value="">Select an option</option>
+                <option value="suspect">Suspect</option>
+                <option value="victim">Victim</option>
+                <option value="witness">Witness</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Gender</label>
+              <select class="form-select" name="gender">
+                <option value="">Select an option</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Nationality</label>
+              <input type="text" class="form-control" name="nationality" placeholder="E.g., American">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Statement / Description</label>
+              <textarea class="form-control" name="statement" rows="3" placeholder="Provide a clear and detailed description..."></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Attachments</label>
+              <input type="file" id="party-attachments" name="attachments" class="form-control" multiple>
+              <div id="uploaded-files" class="d-flex flex-wrap gap-2 mt-2"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 justify-content-end">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="cancelPartyBtn">Cancel</button>
+          <button type="button" class="btn btn-dark" id="createPartyBtn">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Evidence Modal -->
+<div class="modal fade" id="evidenceModal" tabindex="-1" aria-labelledby="evidenceModalLabel">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content p-4">
+            <div class="modal-header border-0">
+                <div>
+                    <h3 class="modal-title fw-bold text-center" id="evidenceModalLabel">Initial Evidence</h3>
+                    <div class="text-muted small text-center" style="margin-top: -8px;">
+                        This form is used to document physical evidence and materials collected from the crime scene.
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="-1"></button>
+            </div>
+            <form id="evidenceForm" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body pt-0">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Type of Evidence <span class="text-danger">*</span></label>
+                            <select class="form-select" name="evidence_type" required>
+                                <option value="">Select an option</option>
+                                <option value="weapon">Weapon</option>
+                                <option value="document">Document</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="electronic">Electronic Device</option>
+                                <option value="biological">Biological Sample</option>
+                                <option value="physical">Physical Object</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Location at Scene <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="location" placeholder="E.g., Living room, Kitchen counter" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="3" placeholder="Provide a detailed description of the evidence, including condition, markings, and any relevant details."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Attachments</label>
+                            <div class="border rounded-3 p-4 mb-2 text-center" style="background: #fafbfc;">
+                                <div class="mb-2">
+                                    <i class="fa fa-cloud-upload fa-2x text-secondary"></i>
+                                </div>
+                                <div>
+                                    <span>Drag & drop files or <label for="evidence-attachments" class="text-primary" style="cursor:pointer;">Browse</label></span>
+                                    <input type="file" id="evidence-attachments" name="attachments" class="d-none" multiple>
+                                </div>
+                                <div class="text-muted small mt-2">
+                                    Supported formats: JPEG, PNG, GIF, MP4, PDF, PSD, AI, Word, PPT
+                                </div>
+                            </div>
+                            <div id="evidence-uploaded-files" class="d-flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 justify-content-end">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-dark" id="createEvidenceBtn">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4">
+        <div class="modal-header border-0">
+          <div class="d-flex align-items-center">
+            <div class="me-3" style="background-color: #f8d7da; width: 10px; height: 40px; border-radius: 4px;"></div>
+            <div>
+              <h5 class="modal-title fw-bold mb-1">Delete</h5>
+              <p class="text-muted mb-0">Are you sure you want to delete this record?</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 justify-content-end">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-dark" id="confirmDeleteBtn">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteConfirmEvidenceModal" tabindex="-1" aria-labelledby="deleteConfirmEvidenceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4">
+        <div class="modal-header border-0">
+          <div class="d-flex align-items-center">
+            <div class="me-3" style="background-color: #f8d7da; width: 10px; height: 40px; border-radius: 4px;"></div>
+            <div>
+              <h5 class="modal-title fw-bold mb-1">Delete</h5>
+              <p class="text-muted mb-0">Are you sure you want to delete this record?</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 justify-content-end">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-dark" id="confirmDeleteEvidenceBtn">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+  window.add_party_url = "{% url 'reports:add_party' %}";
+  window.add_evidence_url = "{% url 'reports:add_evidence' %}";
+</script>
+<script>
+    window.csrfToken = "{{ csrf_token }}";
+  </script>
+  
+<script src="{% static 'reports/js/report_wizard.js' %}"></script>
+{% endblock %}
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

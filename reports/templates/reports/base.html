@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'reports/css/base.css' %}">
+    {% block extra_head %}
+    
+    {% endblock %}
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="nav-section">
+                <li class="section-header 
+                    {% if request.resolver_match.url_name == 'initial-response' %}
+                        active
+                    {% elif request.resolver_match.url_name == 'police-patrol-list' %}
+                        active
+                    {% elif request.resolver_match.url_name == 'create-information-protection' %}
+                        active
+                    {% elif request.resolver_match.url_name == 'update-information-protection' %}
+                        active
+                    {% endif %}">
+                    <a href="{% url 'reports:initial-response' %}">
+                        <span class="arrow">&#9654;</span> Initial Response
+                    </a>
+                </li>
+
+                <ul class="sub-section 
+                        {% if request.resolver_match.url_name == 'initial-response' %}
+                            show
+                        {% elif request.resolver_match.url_name == 'police-patrol-list' %}
+                            show
+                        {% elif request.resolver_match.url_name == 'create-information-protection' %}
+                            show
+                        {% elif request.resolver_match.url_name == 'update-information-protection' %}
+                            show
+                        {% endif %}" id="initial-response">
+                    <li>Time of dispatching forces to the scene</li>
+                    <li>Time of arrival at the scene</li>
+                    <li>List of officers assigned to the scene</li>
+                    <li><a href="">Preliminary assessment of the scene situation</a></li> 
+                    <li>Scene preservation measures taken</li>
+                    <li>Information on medical/rescue support provided</li>
+                </ul>
+
+                <li class="section-header {% if request.resolver_match.url_name == 'scene-info' %}active{% endif %}">
+                    <a href="{% url 'reports:scene-info' %}">
+                        <span class="arrow">&#9654;</span> Scene Information
+                    </a>
+                </li>
+                <ul class="sub-section {% if request.resolver_match.url_name == 'scene-info' %}show{% endif %}" id="scene-info">
+                    <li>Initial Statements</li>
+                    <li>Scene Description</li>
+                    <li>Images and Videos</li>
+                    <li><a href="">Preliminary Physical Evidence Information</li></a>
+                    <li>Scene Sketch</li>
+                </ul>
+
+                <li class="section-header {% if request.resolver_match.url_name == 'investigation-report' %}active{% endif %}">
+                    <a href="{% url 'reports:investigation-report' %}">
+                        <span class="arrow">&#9654;</span> Initial Investigation Report
+                    </a>
+                </li>
+                <ul class="sub-section {% if request.resolver_match.url_name == 'investigation-report' %}show{% endif %}" id="investigation-report">
+                    <li>Location of Investigation</li>
+                    <li>Start time</li>
+                    <li>End time</li>
+                    <li>List of officers assigned</li>
+                    <li>Actions Taken</li>
+                    <li>Collected Evidence</li>
+                    <li>Preliminary Conclusion</li>
+                    <li>Reporter</li>
+                </ul>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            {% block section %}{% endblock section %}
+            <div class="div-main-content">
+            {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

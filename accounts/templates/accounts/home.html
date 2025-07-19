@@ -1,0 +1,55 @@
+{% extends "accounts/layout.html" %}
+{% load static %}
+
+{% block head %}
+<title>Home</title>
+<link rel="stylesheet" href="{% static 'accounts/css/home.css' %}">
+
+{% endblock head %}
+
+{% block body %}
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="custom-alert" role="alert">
+        {{ message }}
+        <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+<div class="container">
+    <h1 class="heading">Welcome to the Home Page</h1>
+
+    {% if user %}
+    <div class="card user-info">
+        <h2>User Information</h2>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Full Name:</strong> {{ user.fullname }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone Number:</strong> {{ user.phonenumber }}</p>
+        <p><strong>Role:</strong> {{ user.role_id__description }}</p>
+    </div>
+
+    <div class="card screen-links">
+        <h2>Mai Quoc Viet</h2>
+        <a class="btn-link" href="{% url 'arrests:chief-report' %}">Screen 0-13</a>
+        <a class="btn-link" href="{% url 'reports:initial-response' %}">Screen 14-23</a>
+    </div>
+
+    <div class="card screen-links">
+        <h2>Thong Thao</h2>
+        <a class="btn-link" href="{% url 'reports:report_management' %}">Report Management</a>
+        <a class="btn-link" href="{% url 'accounts:logout-and-home' %}">Report Home</a>
+    </div>
+
+    <div class="logout-section">
+        <a class="btn-logout" href="{% url 'accounts:logout' %}">Logout</a>
+    </div>
+
+    {% else %}
+    <p>You are not logged in.</p>
+    <p><a class="btn-link" href="{% url 'accounts:login-two' %}">Login</a></p>
+    {% endif %}
+</div>
+{% endblock body %}

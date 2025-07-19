@@ -1,0 +1,225 @@
+.response-group {
+    margin-bottom: 28px;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 2px 2px 2px #ccc;
+}
+
+.response-input,
+.response-textarea {
+    width: 98%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.response-btn {
+    background-color: #E7EDF6;
+    color: rgb(0, 0, 0);
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.response-btn:hover {
+    background-color: #60b5f1;
+}
+
+.response-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.response-table th,
+.response-table td {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.response-table th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+
+.table-action-btn {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 4px;
+}
+
+#arrival-time {
+    width: 50px;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.arrival-time-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.arrival-label {
+    flex-shrink: 0;
+}
+
+.arrival-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.group-header-left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.response-btn-screen {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 7px;
+}
+
+.response-btn-media {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 7px;
+}
+
+#button-group-left {
+    text-align: right;
+    gap: 10px;
+    padding-bottom: 15px;
+}
+
+.table-action-icon {
+    color: #000;
+    margin: 0 6px;
+    font-size: 16px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.table-action-icon:hover {
+    color: #007bff; /* Màu xanh hover giống Bootstrap */
+}
+
+/* CONFIRM DELETE MODAL */
+.modal {
+    display: none; /* ✅ Rất quan trọng */
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+
+.modal-content {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 32px 24px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeInScale 0.25s ease-out;
+}
+
+.modal-content h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 12px;
+}
+
+.modal-warning {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.cancel-btn,
+.confirm-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 120px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Cancel button */
+.cancel-btn {
+    background-color: #f1f5f9;
+    color: #334155;
+}
+
+.cancel-btn:hover {
+    background-color: #e2e8f0;
+}
+
+/* Confirm button */
+.confirm-btn {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+.confirm-btn:hover {
+    background-color: #dc2626;
+}
+
+/* Animation */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

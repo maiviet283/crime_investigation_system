@@ -1,0 +1,122 @@
+/* home.css */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+.container .custom-alert {
+    display: flex;
+    background: #ff4d4f;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    max-width: 500px;
+    margin: 24px auto 0 auto;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    opacity: 0.97;
+    position: relative;
+    padding-right: 3rem;
+    border: none;
+    height: 50px;
+    align-content: center;
+    align-items: center;
+    padding-left: 10px;
+}
+  .container .custom-alert .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    color: #fff;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+  .container .custom-alert .close-btn:hover {
+    opacity: 1;
+  }
+.container {
+    max-width: 850px;
+    margin: auto;
+    padding: 20px;
+}
+
+.heading {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #34495e;
+}
+
+.btn-link {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn-link:hover {
+    background-color: #2980b9;
+}
+
+.btn-logout {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn-logout:hover {
+    background-color: #c0392b;
+}
+
+.logout-section {
+    text-align: right;
+}
+
+@media (max-width: 600px) {
+    .card {
+        padding: 15px;
+    }
+
+    .heading {
+        font-size: 24px;
+    }
+
+    .btn-link, .btn-logout {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .logout-section {
+        text-align: center;
+        margin-top: 15px;
+    }
+}

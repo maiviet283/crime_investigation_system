@@ -1,0 +1,139 @@
+{% extends "reports/base.html" %}
+{% load static %}
+
+{% block title %}{{ section }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href='{% static "reports/css/police_patrol_list.css" %}'>
+{% endblock %}
+
+{% block section %}
+<center id="section"><h2>{{ section }}</h2></center>
+{% endblock section %}
+
+{% block content %}
+<form method="get" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; margin-top: 10px;">
+    <input type="search" name="q" value="{{ search_query }}" placeholder="Search by fullname" /><button class="search_bt" type="submit">Search</button><br>
+
+<select name="status" onchange="this.form.submit()">
+    <option value="" {% if not selected_status %}selected{% endif %}>All Status</option>
+    {% for status in status_list %}
+        <option value="{{ status }}" {% if selected_status == status %}selected{% endif %}>
+        {% if status == 'Closed' %}
+          Idle
+        {% elif status == 'Awaiting Prosecution' %}
+          On Bove Case
+        {% else %}
+          On Call
+        {% endif %}
+        </option>
+    {% endfor %}
+</select>
+
+
+    <select name="zone" onchange="this.form.submit()">
+        <option value="" {% if not selected_zone %}selected{% endif %}>All Zones</option>
+        {% for zone in zone_list %}
+            <option value="{{ zone }}" {% if selected_zone == zone %}selected{% endif %}>{{ zone }}</option>
+        {% endfor %}
+    </select>
+    <a id="x-out" href="{% url 'reports:initial-response' %}">X</a>
+</form>
+
+<form method="post" action="{% url 'reports:add-patrol-offical' %}">
+    {% csrf_token %}
+
+    <input type="hidden" name="q" value="{{ search_query }}">
+    <input type="hidden" name="status" value="{{ selected_status }}">
+    <input type="hidden" name="zone" value="{{ selected_zone }}">
+    <input type="hidden" name="page" value="{{ datasets.number }}">
+
+    <div class="add-header">
+        <span>{{ section }}</span>
+        <button type="submit" class="search_bt">ADD +</button>
+    </div>
+
+    <table id="reportTable" border="1" cellspacing="0" cellpadding="6">
+
+        <thead>
+            <tr>
+                <th>Serial</th>
+                <th>Select</th>
+                <th>Fullname</th>
+                <th>Present Status</th>
+                <th>Role</th>
+                <th>Phone Number</th>
+                <th class="th-zone">Zone</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for report in datasets %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>
+            {% if report.case_id__status == 'Closed' %}
+                <input type="checkbox" name="selected_cases" value="{{ report.case_id__case_id }}">
+            {% else %}
+                <input type="checkbox" disabled>
+            {% endif %}
+        </td>
+        <td>{{ report.officer_approve_username__fullname }}</td>
+        {% if report.case_id__status == 'Closed' %}
+        <td style="background-color: #cce4f5;">Idle</td>
+        {% elif report.case_id__status == 'Awaiting Prosecution' %}
+        <td style="background-color: #ffcbc2;">On Above Case</td>
+        {% else %}
+        <td style="background-color: #5ee462;">On Call</td>
+        {% endif %}
+        <td>{{ report.officer_approve_username__role_id__description }}</td>
+        <td>{{ report.officer_approve_username__phonenumber }}</td>
+        <td class="th-zone">{{ report.case_location }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="7" style="text-align:center;">No reports found</td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+    </table>
+</form>
+
+{% if datasets.has_other_pages %}
+<div class="pagination">
+    <span class="page-info">
+        Hiển thị {{ datasets.start_index }} đến {{ datasets.end_index }} / Tổng {{ datasets.paginator.count }} bản ghi
+    </span>
+    <div class="page-links">
+        {% if datasets.has_previous %}
+        <a
+            href="?page=1{% if selected_status %}&status={{ selected_status }}{% endif %}{% if selected_zone %}&zone={{ selected_zone }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">&laquo;</a>
+        <a
+            href="?page={{ datasets.previous_page_number }}{% if selected_status %}&status={{ selected_status }}{% endif %}{% if selected_zone %}&zone={{ selected_zone }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">‹</a>
+        {% else %}
+        <span class="disabled">&laquo;</span>
+        <span class="disabled">‹</span>
+        {% endif %}
+
+        {% for num in datasets.paginator.page_range %}
+        {% if datasets.number == num %}
+        <span class="current">{{ num }}</span>
+        {% elif num > datasets.number|add:-3 and num < datasets.number|add:3 %} <a
+            href="?page={{ num }}{% if selected_status %}&status={{ selected_status }}{% endif %}{% if selected_zone %}&zone={{ selected_zone }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">
+            {{ num }}</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if datasets.has_next %}
+            <a
+                href="?page={{ datasets.next_page_number }}{% if selected_status %}&status={{ selected_status }}{% endif %}{% if selected_zone %}&zone={{ selected_zone }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">›</a>
+            <a
+                href="?page={{ datasets.paginator.num_pages }}{% if selected_status %}&status={{ selected_status }}{% endif %}{% if selected_zone %}&zone={{ selected_zone }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">&raquo;</a>
+            {% else %}
+            <span class="disabled">›</span>
+            <span class="disabled">&raquo;</span>
+            {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock content %}

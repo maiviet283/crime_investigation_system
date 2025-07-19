@@ -1,0 +1,233 @@
+{% extends "reports/base.html" %}
+{% load static %}
+
+{% block title %}{{ section }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'reports/css/initial_response.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+{% endblock %}
+
+{% block section %}
+<center id="section">
+    <h2>{{ section }}</h2>
+</center>
+{% endblock section %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="response-group flex-between">
+    <label for="dispatch-time">TIME OF DISPATCHING FORCES TO THE SCENE</label>
+    <button class="response-btn" id="choose-btn" onclick="togglePicker()">Choose</button>
+</div>
+
+<!-- Hidden input that flatpickr attaches to -->
+<input type="text" id="hidden-picker" style="display: none;" />
+
+<div class="response-group arrival-time-layout">
+    <label class="arrival-label" for="arrival-time">TIME OF ARRIVAL AT THE SCENE</label>
+    <div class="arrival-controls">
+        <input type="text" id="arrival-time" class="response-input" readonly>
+
+        <div class="ampm-toggle">
+            <input type="radio" id="am" name="ampm" value="AM" checked>
+            <label for="am">AM</label>
+            <input type="radio" id="pm" name="ampm" value="PM">
+            <label for="pm">PM</label>
+        </div>
+    </div>
+</div>
+
+
+<div class="response-group">
+    <div class="group-header-left">
+        <label>LIST OF OFFICERS ASSIGNED TO THE SCENE</label>
+        <a href="{% url 'reports:police-patrol-list' %}" class="response-btn">View</a>
+    </div>
+
+    <table class="response-table">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Role</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for police_patrol in police_patrols %}
+    <tr>
+        <td>{{ police_patrol.officer_approve_username__fullname }}</td>
+        <td>{{ police_patrol.officer_approve_username__role_id__description }}</td>
+        <td>{{ police_patrol.officer_approve_username__phonenumber }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+    </table>
+</div>
+
+
+<div class="response-group">
+    <label>PRELIMINARY ASSESSMENT OF THE SCENE SITUATION</label>
+    <textarea class="response-textarea" placeholder="Enter your assessment..."></textarea>
+</div>
+
+
+<div class="response-btn-screen">
+    <label>SCENE PRESERVATION MEASURES TAKEN</label>
+    <a href="{% url 'reports:create-information-protection' %}" class="response-btn">ADD</a>
+</div>
+
+<div class="response-group">
+    <table class="response-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Preservation Measures</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for preservation_measure in preservation_measures %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ preservation_measure.plan_content }}</td>
+                <td>
+                    <a href="#" class="table-action-icon delete-btn"
+                        data-id="{{ preservation_measure.investigation_plan_id }}" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    <a href="{% url 'reports:update-information-protection' preservation_measure.investigation_plan_id %}"
+                        class="table-action-icon" title="Edit">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <h3>Are You Sure You Want to Permanently Delete This Measure?</h3>
+        <p class="modal-warning">
+            <strong>Warning:</strong> This action is irreversible. Deleting this piece of measure will result in the
+            permanent loss of all associated data.
+        </p>
+        <form id="deleteForm" method="post">
+            {% csrf_token %}
+            <div class="modal-actions">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="confirm-btn">Yes, Delete Permanently</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="response-btn-media">
+    <label>INFORMATION ON MEDICAL/RESCUE SUPPORT PROVIDED</label>
+    <button class="response-btn">Add</button>
+</div>
+
+<div class="response-group">
+    <table class="response-table">
+        <thead>
+            <tr>
+                <th>Medical/Rescue Unit ID</th>
+                <th>Type of Support Provided</th>
+                <th>Time of Arrival</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>EMS45</td>
+                <td>Medical Emergency</td>
+                <td>08:00 PM</td>
+                <td>
+                    <a href="#" class="table-action-icon" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    <a href="#" class="table-action-icon" title="Edit">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>RES-Q12</td>
+                <td>Patrol Officer</td>
+                <td>08:00 PM</td>
+                <td>
+                    <a href="#" class="table-action-icon" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    <a href="#" class="table-action-icon" title="Edit">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>RES-Q12</td>
+                <td>Detective</td>
+                <td>08:00 PM</td>
+                <td>
+                    <a href="#" class="table-action-icon" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    <a href="#" class="table-action-icon" title="Edit">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="button-group-left">
+    <div>
+        <button class="response-btn">Cancel</button>
+        <button class="response-btn">Save</button>
+        <button class="response-btn">Next Page</button>
+    </div>
+</div>
+
+
+<script src='{% static "reports/js/initial_response.js" %}'></script>
+
+<script>
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    const modal = document.getElementById('deleteModal');
+    const cancelBtn = document.querySelector('.cancel-btn');
+    const deleteForm = document.getElementById('deleteForm');
+
+    deleteButtons.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const id = this.dataset.id;
+            deleteForm.action = "{% url 'reports:delete-information-protection' 0 %}".replace('/0', `/${id}`);
+            modal.style.display = 'flex';
+        });
+    });
+
+
+    cancelBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+    });
+
+    window.onclick = function (e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+{% endblock content %}

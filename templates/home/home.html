@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home | NYPD Crime Investigation System{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'home/css/slider_section.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+<div class="home-container">
+    <div class="slider-section">
+        <div class="slider-section">
+            <div class="slider-wrapper">
+                <div class="slider-image fade">
+                    <img src="{% static 'home/images/image_slide1.png' %}" alt="slide1" class="img-fluid">
+                </div>
+                <div class="slider-image fade">
+                    <img src="{% static 'home/images/image_slide2.png' %}" alt="slide2" class="img-fluid">
+                </div>
+                <div class="slider-image fade">
+                    <img src="{% static 'home/images/image_slide3.png' %}" alt="slide3" class="img-fluid">
+                </div>
+
+                <div class="slider-dots">
+                    <span class="dot" onclick="showSlide(0)"></span>
+                    <span class="dot" onclick="showSlide(1)"></span>
+                    <span class="dot" onclick="showSlide(2)"></span>
+                </div>
+            </div>
+        </div>
+
+
+        <h2 class="section-title">How You Can Help?</h2>
+        <div class="help-section">
+            <div class="help-item">
+                <div class="help-icon">💬</div>
+                <div class="help-text">Tell us what happened.</div>
+            </div>
+            <div class="help-item">
+                <div class="help-icon">🤝</div>
+                <div class="help-text">Your contribution &amp; our mission.</div>
+            </div>
+            <div class="help-item">
+                <div class="help-icon">🛡️</div>
+                <div class="help-text">Protect yourself and others.</div>
+            </div>
+        </div>
+        <div class="report-btn-wrapper">
+            <a href="{% url 'reports:start_report_wizard' %}" class="report-btn">File A Report</a>
+        </div>
+
+        <hr class="section-divider">
+
+        <h2 class="section-title">Programs and Resources</h2>
+        <div class="programs-section">
+            <div class="program-item">
+                <img src="{% static 'home/images/image_home1.png' %}" alt="CompStat & Crime Stats" class="img-fluid">
+                <div class="program-title">CompStat &amp; Crime Stats</div>
+                <div class="program-desc">
+                    Access crime statistics, traffic data, reports, and CompStat 2.0, an advanced digital crime-tracking
+                    system that delivers block-by-block data.
+                </div>
+            </div>
+            <div class="program-item">
+                <img src="{% static 'home/images/image_home2.png' %}" alt="Body-worn Cameras" class="img-fluid">
+                <div class="program-title">Body-worn Cameras</div>
+                <div class="program-desc">
+                    Body-worn cameras have come to the NYPD. What you need to know.
+                </div>
+            </div>
+            <div class="program-item">
+                <img src="{% static 'home/images/image_home3.png' %}" alt="Help Is Available" class="img-fluid">
+                <div class="program-title">Help Is Available</div>
+                <div class="program-desc">
+                    Before cops can help others, they must first take care of themselves. Help is available.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'home/js/index.js' %}"></script>
+{% endblock %}
