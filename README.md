@@ -1,22 +1,26 @@
-# 🚔 Crime Management System (Django Project)
+# 🚔 Crime Management System
 
-This is a mock project for managing crime reports, investigations, and user accounts using Django and MySQL.
+Một dự án mô phỏng hệ thống quản lý tội phạm sử dụng Django và MySQL. Dự án hỗ trợ quản lý báo cáo tội phạm, quá trình điều tra, và tài khoản người dùng.
 
-[How to deploy Docker if you want](How_Deploy_Docker.md)
-
----
-
-## 🔧 Requirements
-
-* Python 3.13+
-* MySQL
-* Git
-* Virtual Environment (`venv`)
-* pip
+> 📦 Hỗ trợ triển khai bằng:
+> - [Docker](deploy_docker.md)
+> - [Gunicorn + Nginx](deploy_nginx.md)
 
 ---
 
-## 📦 Clone Project
+## 📋 Yêu cầu hệ thống
+
+Trước khi bắt đầu, hãy đảm bảo bạn đã cài đặt:
+
+- Python 3.13+
+- MySQL
+- Git
+- pip
+- Virtual Environment (`venv`)
+
+---
+
+## 📦 Clone mã nguồn
 
 ```bash
 git clone https://github.com/maiviet283/crime_investigation_system.git
@@ -25,56 +29,51 @@ cd crime_investigation_system
 
 ---
 
-## 🗄️ Setup Database
+## 🗄️ Thiết lập cơ sở dữ liệu
 
-1. **Create a MySQL database:**
+1. **Tạo database MySQL:**
 
-   ```sql
-   CREATE DATABASE crime_management_db;
-   ```
+```sql
+CREATE DATABASE crime_management_db;
+```
 
-2. **Import schema and sample data:**
-   Open MySQL (e.g., via phpMyAdmin or CLI) and import the file:
+2. **Import dữ liệu mẫu:**
 
-   ```
-   crime_management.sql
-   ```
+Import file `crime_management.sql` bằng phpMyAdmin hoặc MySQL CLI.
 
-3. **Configure `.env` file:**
+3. **Tạo file `.env`:**
 
-   Create a `.env` file in the root directory with the following (edit if needed):
+```env
+# Cấu hình database
+DB_NAME=crime_management
+DB_USER=root
+DB_PASSWORD=12345678
+DB_HOST=localhost
+DB_PORT=3306
 
-   ```env
-   # Database settings
-   DB_NAME=crime_management
-   DB_USER=root
-   DB_PASSWORD=12345678
-   DB_HOST=localhost
-   DB_PORT=3306
+# Django settings
+SECRET_KEY=
+DEBUG=True
+```
 
-   # Django secret key
-   SECRET_KEY=
-
-   # Debug mode
-   DEBUG=True
-   ```
+> ⚠️ *Không commit file `.env` lên repository công khai.*
 
 ---
 
-## ⚙️ Setup Virtual Environment
+## ⚙️ Thiết lập môi trường ảo
 
 ```bash
 python -m venv venv
-# Activate environment
-# Windows
-venv\Scripts\activate
-# macOS/Linux
-source venv/bin/activate
 ```
+
+**Kích hoạt môi trường:**
+
+- Windows: `venv\Scripts\activate`
+- macOS/Linux: `source venv/bin/activate`
 
 ---
 
-## 📥 Install Dependencies
+## 📥 Cài đặt dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -82,59 +81,60 @@ pip install -r requirements.txt
 
 ---
 
-## 🚀 Run the Project
+## 🚀 Chạy ứng dụng
 
 ```bash
 python manage.py runserver
 ```
 
-By default, it will run at:
-🔗 [http://127.0.0.1:8000](http://127.0.0.1:8000)
+Truy cập tại: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ---
 
-## 🔐 Login Credentials
+## 🔐 Tài khoản đăng nhập
 
-### 👤 Admin:
+### 👤 Quản trị viên:
 
-* URL: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
-* **Username:** `maiviet283`
-* **Password:** `bigdreamer1`
+- URL: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
+- Username: `maiviet283`
+- Password: `bigdreamer1`
 
-### 👥 Regular User:
+### 👥 Người dùng thường:
 
-* URL: [http://127.0.0.1:8000/accounts/login/](http://127.0.0.1:8000/accounts/login/)
-* **Username:** `admin.john`
-* **Password:** `password123`
+- URL: [http://127.0.0.1:8000/accounts/login/](http://127.0.0.1:8000/accounts/login/)
+- Username: `admin.john`
+- Password: `password123`
 
-🔐 *All user accounts use the password:* `password123`
-
----
-
-## 🌐 Site Pages
-
-* 🔑 **Login**: [http://127.0.0.1:8000/login/](http://127.0.0.1:8000/login/)
-* 🏠 **Homepage**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-* 👤 **Accounts**: [http://127.0.0.1:8000/accounts](http://127.0.0.1:8000/accounts)
-* 🛠️ **Admin Panel**: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
+> 🔐 *Tất cả tài khoản người dùng đều dùng mật khẩu:* `password123`
 
 ---
 
-## 💡 Notes
+## 🌐 Các trang chính
 
-* Make sure MySQL is running and accessible before starting the server.
-* The `.env` file is required to connect to your database. Never commit it to public repositories.
-* Customize the `SECRET_KEY` in production.
-
----
-
-## 📷 Screenshot (Optional)
-
-> You can add screenshots here to show login page, dashboard, or report views.
+| Trang | URL |
+|------|-----|
+| 🔑 Login | [http://127.0.0.1:8000/login/](http://127.0.0.1:8000/login/) |
+| 🏠 Homepage | [http://127.0.0.1:8000/](http://127.0.0.1:8000/) |
+| 👤 Accounts | [http://127.0.0.1:8000/accounts](http://127.0.0.1:8000/accounts) |
+| 🛠️ Admin Panel | [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin) |
 
 ---
 
-## 👨‍💻 Authors
+## 💡 Ghi chú
 
-* **Nhóm 4 - Mock Project Python**
-* [GitHub Repository](https://github.com/maiviet283/crime_investigation_system)
+- Đảm bảo MySQL đang chạy trước khi khởi động Django.
+- Luôn bảo mật `SECRET_KEY` trong môi trường production.
+- Có thể triển khai bằng Docker hoặc Nginx tùy nhu cầu.
+
+---
+
+## 📷 Screenshot (Tuỳ chọn)
+
+> Bạn có thể thêm ảnh chụp màn hình giao diện đăng nhập, dashboard, hoặc trang báo cáo tại đây.
+
+---
+
+## 👨‍💻 Tác giả
+
+- **Nhóm 4 - Mock Project Python**
+- 📁 [GitHub Repository](https://github.com/maiviet283/crime_investigation_system)
