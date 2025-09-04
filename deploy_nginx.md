@@ -1,21 +1,32 @@
-# 🚀 Triển khai Django với Gunicorn và Nginx trên Ubuntu
+# 🚀 Hướng Dẫn Triển Khai Django với Gunicorn và Nginx trên Ubuntu
 
-Hướng dẫn từng bước để triển khai một ứng dụng Django sử dụng Gunicorn làm WSGI server và Nginx làm reverse proxy trên hệ điều hành Ubuntu.
+Triển khai ứng dụng Django sử dụng Gunicorn làm WSGI server và Nginx làm reverse proxy trên hệ điều hành Ubuntu.
 
 ---
 
-## 📌 1. Cập nhật hệ thống & cài đặt gói cần thiết
+## 📌 Bước 1: Tạo người dùng mới và cấp quyền sudo
 
-```sh
-sudo apt update && sudo apt upgrade -y
-sudo apt install python3-pip python3-venv nginx git -y
+```bash
+sudo adduser maiviet283
+sudo usermod -aG sudo maiviet283
+su - maiviet283
 ```
 
 ---
 
-## 📌 2. Clone mã nguồn từ GitHub
+## 📌 Bước 2: Cập nhật hệ thống và cài đặt các gói cần thiết
 
-```sh
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install python3-pip python3-venv nginx git -y
+sudo apt install pkg-config libmysqlclient-dev build-essential -y
+```
+
+---
+
+## 📌 Bước 3: Clone mã nguồn từ GitHub
+
+```bash
 cd /home/maiviet283/
 git clone https://github.com/maiviet283/crime_investigation_system.git
 cd crime_investigation_system/
@@ -23,20 +34,19 @@ cd crime_investigation_system/
 
 ---
 
-## 📌 3. Thiết lập môi trường ảo & cài đặt dependencies
+## 📌 Bước 4: Thiết lập môi trường ảo và cài đặt dependencies
 
-```sh
+```bash
 python3 -m venv /home/maiviet283/venv
 source /home/maiviet283/venv/bin/activate
-pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
 ---
 
-## 📌 4. Thu thập file tĩnh (staticfiles)
+## 📌 Bước 5: Thu thập file tĩnh
 
-```sh
+```bash
 python3 manage.py collectstatic
 sudo mkdir -p /home/maiviet283/crime_investigation_system/staticfiles
 sudo chown -R www-data:www-data /home/maiviet283/crime_investigation_system/staticfiles
@@ -45,11 +55,11 @@ sudo chmod -R 755 /home/maiviet283/crime_investigation_system/staticfiles
 
 ---
 
-# ⚙️ Cấu hình Gunicorn
+# ⚙️ Cấu Hình Gunicorn
 
-## 📌 5. Tạo file socket cho Gunicorn
+## 📌 Bước 6: Tạo file socket cho Gunicorn
 
-```sh
+```bash
 sudo nano /etc/systemd/system/gunicorn.socket
 ```
 
@@ -68,9 +78,9 @@ WantedBy=sockets.target
 
 ---
 
-## 📌 6. Tạo service cho Gunicorn
+## 📌 Bước 7: Tạo service cho Gunicorn
 
-```sh
+```bash
 sudo nano /etc/systemd/system/gunicorn.service
 ```
 
@@ -98,9 +108,9 @@ WantedBy=multi-user.target
 
 ---
 
-## 📌 7. Khởi động và kiểm tra Gunicorn
+## 📌 Bước 8: Khởi động và kiểm tra Gunicorn
 
-```sh
+```bash
 sudo systemctl daemon-reload
 sudo systemctl start gunicorn
 sudo systemctl enable gunicorn
@@ -109,11 +119,11 @@ sudo systemctl status gunicorn
 
 ---
 
-# 🌐 Cấu hình Nginx
+# 🌐 Cấu Hình Nginx
 
-## 📌 8. Tạo file cấu hình Nginx cho project
+## 📌 Bước 9: Tạo file cấu hình Nginx cho project
 
-```sh
+```bash
 sudo nano /etc/nginx/sites-available/crime_investigation_system
 ```
 
@@ -157,9 +167,9 @@ server {
 
 ---
 
-## 📌 9. Kích hoạt cấu hình Nginx
+## 📌 Bước 10: Kích hoạt cấu hình Nginx
 
-```sh
+```bash
 sudo ln -s /etc/nginx/sites-available/crime_investigation_system /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
@@ -167,21 +177,20 @@ sudo systemctl restart nginx
 
 ---
 
-# 🔐 Cấp quyền & kiểm tra
+# 🔐 Cấp Quyền và Kiểm Tra
 
-## 📌 10. Cấp quyền thư mục
+## 📌 Bước 11: Cấp quyền thư mục
 
-```sh
+```bash
 sudo chmod 755 /home/maiviet283
-sudo find /home/maiviet283/crime_investigation_system/staticfiles/ -type f -exec chmod 644 {} \;
 sudo find /home/maiviet283/crime_investigation_system/staticfiles/ -type d -exec chmod 755 {} \;
 ```
 
 ---
 
-## 📌 11. Kiểm tra Gunicorn socket
+## 📌 Bước 12: Kiểm tra Gunicorn socket
 
-```sh
+```bash
 ls -l /run/gunicorn.sock
 ```
 
@@ -189,9 +198,9 @@ ls -l /run/gunicorn.sock
 
 ---
 
-# ✅ Hoàn tất
+# ✅ Hoàn Tất
 
-Bạn có thể truy cập website bằng **IP server** hoặc **tên miền** đã cấu hình.
+Bạn có thể truy cập website bằng địa chỉ IP hoặc tên miền đã cấu hình.
 
 🔗 Ví dụ: [http://172.21.252.90](http://172.21.252.90)
 
