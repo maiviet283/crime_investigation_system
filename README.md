@@ -19,8 +19,8 @@ This is a mock project for managing crime reports, investigations, and user acco
 ## 📦 Clone Project
 
 ```bash
-git clone https://github.com/Nhom4-PHP-Python/MockProject_062025_Nhom4_Python.git
-cd MockProject_062025_Nhom4_Python
+git clone https://github.com/maiviet283/crime_investigation_system.git
+cd crime_investigation_system
 ```
 
 ---
@@ -45,12 +45,17 @@ cd MockProject_062025_Nhom4_Python
    Create a `.env` file in the root directory with the following (edit if needed):
 
    ```env
-   DB_NAME=crime_management_db
-   DB_USER=your_mysql_user
-   DB_PASSWORD=your_mysql_password
+   # Database settings
+   DB_NAME=crime_management
+   DB_USER=root
+   DB_PASSWORD=12345678
    DB_HOST=localhost
    DB_PORT=3306
-   SECRET_KEY=your_django_secret_key
+
+   # Django secret key
+   SECRET_KEY=
+
+   # Debug mode
    DEBUG=True
    ```
 
@@ -98,7 +103,7 @@ By default, it will run at:
 
 ### 👥 Regular User:
 
-* URL: [http://127.0.0.1:8000/accounts/login/](http://127.0.0.1:8000/accounts/login-two/)
+* URL: [http://127.0.0.1:8000/accounts/login/](http://127.0.0.1:8000/accounts/login/)
 * **Username:** `admin.john`
 * **Password:** `password123`
 
@@ -132,4 +137,4 @@ By default, it will run at:
 ## 👨‍💻 Authors
 
 * **Nhóm 4 - Mock Project Python**
-* [GitHub Repository](https://github.com/Nhom4-PHP-Python/MockProject_062025_Nhom4_Python)
+* [GitHub Repository](https://github.com/maiviet283/crime_investigation_system)
